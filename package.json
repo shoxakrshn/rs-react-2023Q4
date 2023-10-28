@@ -10,7 +10,8 @@
     "lint-fix": "npm run prettier && npm run eslint",
     "preview": "vite preview",
     "prettier": "prettier --config .prettierrc \"./**/*.{ts,tsx,json}\" --write",
-    "eslint": "eslint --ext . \"./**/*.{ts,tsx}\" --fix"
+    "eslint": "eslint --ext . \"./**/*.{ts,tsx}\" --fix",
+    "prepare": "husky install"
   },
   "dependencies": {
     "react": "^18.2.0",
