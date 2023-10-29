@@ -14,7 +14,7 @@ class HeroList extends React.Component<PropsType> {
     }
 
     return (
-      <ul>
+      <ul className="flex flex-wrap  justify-between gap-2 gap-y-5">
         {heroes.map((hero, idx) => (
           <HeroItem hero={hero} key={idx} />
         ))}

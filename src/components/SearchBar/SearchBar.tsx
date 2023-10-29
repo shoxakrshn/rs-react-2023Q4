@@ -73,8 +73,9 @@ class SearchBar extends React.Component<Props, StateType> {
     if (this.state.error) throw new Error();
 
     return (
-      <form onSubmit={this.submitHandler}>
+      <form onSubmit={this.submitHandler} className="">
         <input
+          className="px-3 py-2 mr-4 rounded"
           type="text"
           placeholder="search"
           value={text}

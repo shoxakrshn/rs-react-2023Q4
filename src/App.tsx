@@ -23,7 +23,7 @@ class App extends React.Component {
     const { heroes, isLoading } = this.state;
     return (
       <ErrorBoundry>
-        <section className="search">
+        <section className="search mb-4">
           <SearchBar cbHeroes={this.cbHeroes} cbLoading={this.cbLoading} />
         </section>
         <section className="result">

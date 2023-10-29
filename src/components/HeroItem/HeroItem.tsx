@@ -8,10 +8,12 @@ class HeroItem extends React.Component<PropsType> {
   render() {
     const { hero } = this.props;
     return (
-      <li>
-        <h3>{hero.name}</h3>
+      <li className="border rounded p-3 basis-[49%]">
+        <h3 className="font-bold text-xl">{hero.name}</h3>
         <p>Gender: {hero.gender}</p>
-        <p>Gender: {hero.birth_year}</p>
+        <p>Height: {hero.height}</p>
+        <p>Eye Color: {hero.eye_color}</p>
+        <p>Birth Year: {hero.birth_year}</p>
       </li>
     );
   }
