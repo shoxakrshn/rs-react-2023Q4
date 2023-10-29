@@ -1,35 +1,37 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import React from 'react';
+import { IHero } from './types/types';
+import ErrorBoundry from './service/ErrorBoundry';
+import SearchBar from './components/SearchBar/SearchBar';
+import HeroList from './components/HeroList/HeroList';
 import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0);
+type StateType = {
+  heroes: IHero[];
+  isLoading: boolean;
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+class App extends React.Component {
+  state: StateType = {
+    heroes: [],
+    isLoading: false,
+  };
+
+  cbHeroes = (newHeroes: IHero[]) => this.setState({ heroes: newHeroes });
+  cbLoading = (loading: boolean) => this.setState({ isLoading: loading });
+
+  render() {
+    const { heroes, isLoading } = this.state;
+    return (
+      <ErrorBoundry>
+        <section className="search">
+          <SearchBar cbHeroes={this.cbHeroes} cbLoading={this.cbLoading} />
+        </section>
+        <section className="result">
+          {isLoading ? <p>Loading...</p> : <HeroList heroes={heroes} />}
+        </section>
+      </ErrorBoundry>
+    );
+  }
 }
 
 export default App;
