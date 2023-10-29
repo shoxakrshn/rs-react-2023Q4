@@ -30,7 +30,7 @@ class ErrorBoundry extends React.Component<PropsType, StateType> {
 
   render() {
     if (this.state.hasError) {
-      return <p>Something wen wrong</p>;
+      return <p>Something went wrong</p>;
     }
 
     return this.props.children;
