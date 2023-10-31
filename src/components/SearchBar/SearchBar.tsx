@@ -52,6 +52,10 @@ class SearchBar extends React.Component<Props, StateType> {
     }
   };
 
+  showErrorBoundry = () => {
+    this.setState({ error: 'Show Error Boundry' });
+  };
+
   changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     this.setState({ text: e.target.value });
 
@@ -83,6 +87,7 @@ class SearchBar extends React.Component<Props, StateType> {
           ref={this.inputRef}
         />
         <button type="submit">Get heroes</button>
+        <button onClick={this.showErrorBoundry}>Get Error</button>
       </form>
     );
   }
