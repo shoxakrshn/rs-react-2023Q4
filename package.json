@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 & npx prettier . --check",
-    "lint-fix": "npm run prettier && npm run eslint",
+    "format:fix": "npm run prettier && npm run eslint",
     "preview": "vite preview",
     "prettier": "prettier --config .prettierrc \"./**/*.{ts,tsx,json}\" --write",
     "eslint": "eslint --ext . \"./**/*.{ts,tsx}\" --fix",
