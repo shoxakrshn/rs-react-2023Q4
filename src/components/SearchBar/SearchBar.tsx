@@ -1,39 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IHero, IResponse } from '../../types/types';
 import { fetchHeroes, searchHeroes } from '../../service/service';
 
-interface Props {
+interface PropsType {
   cbHeroes: (heroes: IHero[]) => void;
   cbLoading: (loading: boolean) => void;
 }
 
-type StateType = {
-  text: string;
-  error: string;
-};
+const SearchBar: React.FC<PropsType> = ({ cbHeroes, cbLoading }) => {
+  const [searchValue, setSearchValue] = useState<string>(
+    localStorage.getItem('searchKey') || '',
+  );
 
-class SearchBar extends React.Component<Props, StateType> {
-  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  const [error, setError] = useState<string>('');
 
-  public state: StateType = {
-    text: localStorage.getItem('searchKey') || '',
-    error: '',
-  };
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  fetchData = async () => {
-    const { text } = this.state;
-    const { cbHeroes, cbLoading } = this.props;
-    if (text.length !== 0) {
+  useEffect(() => {
+    inputRef.current?.focus();
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    if (searchValue.length !== 0) {
       try {
         cbLoading(true);
 
-        const { results }: IResponse = await searchHeroes(text);
+        const { results }: IResponse = await searchHeroes(searchValue);
 
         cbHeroes(results);
         cbLoading(false);
       } catch (err) {
         if (err instanceof Error) {
-          this.setState({ error: err.message });
+          setError(err.message);
         }
       }
     } else {
@@ -46,51 +45,42 @@ class SearchBar extends React.Component<Props, StateType> {
         cbLoading(false);
       } catch (err) {
         if (err instanceof Error) {
-          this.setState({ error: err.message });
+          setError(err.message);
         }
       }
     }
   };
 
-  showErrorBoundry = () => {
-    this.setState({ error: 'Show Error Boundry' });
-  };
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setSearchValue(e.target.value);
 
-  changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ text: e.target.value });
-
-  submitHandler = (e: React.FormEvent) => {
+  const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('searchKey', this.state.text);
+    localStorage.setItem('searchKey', searchValue);
 
-    this.fetchData();
+    fetchData();
   };
 
-  async componentDidMount(): Promise<void> {
-    this.inputRef.current?.focus();
-    this.fetchData();
-  }
+  const showErrorBoundry = () => {
+    setError('Show Error Boundry');
+  };
 
-  render() {
-    const { text } = this.state;
+  if (error) throw new Error();
 
-    if (this.state.error) throw new Error();
-
-    return (
-      <form onSubmit={this.submitHandler} className="">
-        <input
-          className="px-3 py-2 mr-4 rounded"
-          type="text"
-          placeholder="search"
-          value={text}
-          onChange={this.changeHandler}
-          ref={this.inputRef}
-        />
-        <button type="submit">Get heroes</button>
-        <button onClick={this.showErrorBoundry}>Get Error</button>
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={submitHandler} className="">
+      <input
+        className="px-3 py-2 mr-4 rounded"
+        type="text"
+        placeholder="search"
+        value={searchValue}
+        onChange={changeHandler}
+        ref={inputRef}
+      />
+      <button type="submit">Get heroes</button>
+      <button onClick={showErrorBoundry}>Get Error</button>
+    </form>
+  );
+};
 
 export default SearchBar;
