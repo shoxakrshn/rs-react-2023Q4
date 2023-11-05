@@ -27,7 +27,7 @@ const DetailPage: React.FC = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <>
+        <div>
           <ul className="mb-4">
             <li className="rounded overflow-hidden">
               <img src={heroInfo?.image} alt="pic" />
@@ -38,7 +38,7 @@ const DetailPage: React.FC = () => {
             <li>Status: {heroInfo?.status}</li>
           </ul>
           <button onClick={() => navigate('/')}>Close</button>
-        </>
+        </div>
       )}
     </div>
   );

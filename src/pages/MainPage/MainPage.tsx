@@ -83,13 +83,10 @@ const MainPage: React.FC = () => {
         />
       </section>
 
-      <main className="flex gap-12 mb-4">
-        <section className="result">
-          {isLoading ? <p>Loading...</p> : <HeroList heroes={heroes} />}
-        </section>
-
+      <section className="result flex gap-16 mb-4">
+        {isLoading ? <p>Loading...</p> : <HeroList heroes={heroes} />}
         <Outlet />
-      </main>
+      </section>
 
       <Pagination
         prevPage={prevPage}

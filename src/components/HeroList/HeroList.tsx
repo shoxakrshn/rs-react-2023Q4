@@ -12,7 +12,7 @@ const HeroList: React.FC<PropsType> = ({ heroes }) => {
   }
 
   return (
-    <ul className="flex flex-col gap-x-2 gap-y-5">
+    <ul className="flex flex-wrap gap-x-2  basis-[300px] grow max-w-[853px] gap-y-5">
       {heroes.map((hero) => (
         <HeroItem hero={hero} key={hero.id} />
       ))}
