@@ -1,4 +1,4 @@
 export enum API {
-  getAll = 'https://swapi.dev/api/people/?page=1',
-  search = 'https://swapi.dev/api/people/?page=1&search=',
+  getAll = 'https://rickandmortyapi.com/api/character?page=1',
+  search = 'https://rickandmortyapi.com/api/character?page=1&name=',
 }

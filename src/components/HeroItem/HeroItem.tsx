@@ -1,5 +1,6 @@
 import React from 'react';
 import { IHero } from '../../types/types';
+import { Link } from 'react-router-dom';
 
 type PropsType = {
   hero: IHero;
@@ -8,11 +9,10 @@ type PropsType = {
 const HeroItem: React.FC<PropsType> = ({ hero }) => {
   return (
     <li className="border rounded p-3 basis-[49%]">
-      <h3 className="font-bold text-xl">{hero.name}</h3>
-      <p>Gender: {hero.gender}</p>
-      <p>Height: {hero.height}</p>
-      <p>Eye Color: {hero.eye_color}</p>
-      <p>Birth Year: {hero.birth_year}</p>
+      <Link to={`character/${hero.id}`} key={hero.id}>
+        <h3 className="font-bold text-xl">{hero.name}</h3>
+        <p>status: {hero.status}</p>
+      </Link>
     </li>
   );
 };

@@ -14,7 +14,7 @@ const Pagination: React.FC<PropsType> = ({
   nextPageUrl,
 }) => {
   return (
-    <>
+    <div className="flex gap-4 items-center">
       <button onClick={prevPage} disabled={prevPageUrl === null}>
         Prev
       </button>
@@ -22,7 +22,7 @@ const Pagination: React.FC<PropsType> = ({
       <button onClick={nextPage} disabled={nextPageUrl === null}>
         Next
       </button>
-    </>
+    </div>
   );
 };
 

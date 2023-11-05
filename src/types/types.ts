@@ -1,25 +1,26 @@
 export interface IResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
+  info: Info;
   results: IHero[];
 }
 
+interface Info {
+  count: number;
+  pages: number;
+  next: string;
+  prev: string;
+}
+
 export interface IHero {
+  id: number;
   name: string;
-  height: number;
-  mass: number;
-  hair_color: string;
-  skin_color: string;
-  eye_color: string;
-  birth_year: string;
+  status: string;
+  species: string;
+  type: string;
   gender: string;
-  homeworld: string;
-  films: string[];
-  species: string[];
-  vehicles: string[];
-  starships: string[];
-  created: Date;
-  edited: Date;
+  origin: object;
+  location: object;
+  image: string;
+  episode: string[];
   url: string;
+  created: string;
 }
