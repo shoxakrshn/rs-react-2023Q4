@@ -1,16 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IHero, IResponse } from '../../types/types';
-import { fetchHeroes, searchHeroes } from '../../service/service';
+import {
+  getFromLocalStorage,
+  saveInLocalStorage,
+  getSearchType,
+} from '../../service/helpers';
 
 interface PropsType {
-  cbHeroes: (heroes: IHero[]) => void;
-  cbLoading: (loading: boolean) => void;
+  setSearch: (value: string) => void;
+  setCurrentPageUrl: (value: string) => void;
+  setCurrentPage: (value: number) => void;
 }
 
-const SearchBar: React.FC<PropsType> = ({ cbHeroes, cbLoading }) => {
-  const [searchValue, setSearchValue] = useState<string>(
-    localStorage.getItem('searchKey') || '',
-  );
+const SearchBar: React.FC<PropsType> = ({
+  setSearch,
+  setCurrentPage,
+  setCurrentPageUrl,
+}) => {
+  const [searchValue, setSearchValue] = useState<string>(getFromLocalStorage());
 
   const [error, setError] = useState<string>('');
 
@@ -18,47 +24,22 @@ const SearchBar: React.FC<PropsType> = ({ cbHeroes, cbLoading }) => {
 
   useEffect(() => {
     inputRef.current?.focus();
-    fetchData();
   }, []);
-
-  const fetchData = async () => {
-    if (searchValue.length !== 0) {
-      try {
-        cbLoading(true);
-
-        const { results }: IResponse = await searchHeroes(searchValue);
-
-        cbHeroes(results);
-        cbLoading(false);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        }
-      }
-    } else {
-      try {
-        cbLoading(true);
-
-        const { results }: IResponse = await fetchHeroes();
-        cbHeroes(results);
-
-        cbLoading(false);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        }
-      }
-    }
-  };
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearchValue(e.target.value);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('searchKey', searchValue);
+    inputRef.current?.focus();
 
-    fetchData();
+    saveInLocalStorage(searchValue);
+    setCurrentPage(1);
+    setSearch(searchValue.trim());
+
+    const currentPageType = getSearchType(searchValue.trim());
+
+    setCurrentPageUrl(currentPageType);
   };
 
   const showErrorBoundry = () => {
