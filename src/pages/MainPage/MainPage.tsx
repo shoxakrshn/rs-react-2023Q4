@@ -4,7 +4,11 @@ import HeroList from '../../components/HeroList/HeroList';
 import Pagination from '../../components/Pagination/Pagination';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import ErrorBoundry from '../../service/ErrorBoundry';
-import { getFromLocalStorage, getSearchType } from '../../service/helpers';
+import {
+  getFromLocalStorage,
+  getSearchType,
+  saveInLocalStorage,
+} from '../../service/helpers';
 import { fetchHeroes } from '../../service/service';
 import { IHero, IResponse } from '../../types/types';
 import { Outlet, useSearchParams } from 'react-router-dom';
@@ -13,7 +17,9 @@ const MainPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [search, setSearch] = useState<string>(getFromLocalStorage());
+  const [search, setSearch] = useState<string>(
+    getFromLocalStorage('searchKey'),
+  );
   const [heroes, setHeroes] = useState<IHero[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -39,10 +45,11 @@ const MainPage: React.FC = () => {
         setPrevPageUrl(prev);
 
         if (search) {
-          localStorage.setItem('page', currentPage.toString());
+          saveInLocalStorage('page', currentPage.toString());
+
           setSearchParams({ search: search, page: currentPage.toString() });
         } else {
-          localStorage.setItem('page', currentPage.toString());
+          saveInLocalStorage('page', currentPage.toString());
           setSearchParams({ page: currentPage.toString() });
         }
 

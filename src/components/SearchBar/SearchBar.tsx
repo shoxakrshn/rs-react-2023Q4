@@ -16,7 +16,9 @@ const SearchBar: React.FC<PropsType> = ({
   setCurrentPage,
   setCurrentPageUrl,
 }) => {
-  const [searchValue, setSearchValue] = useState<string>(getFromLocalStorage());
+  const [searchValue, setSearchValue] = useState<string>(
+    getFromLocalStorage('searchKey'),
+  );
 
   const [error, setError] = useState<string>('');
 
@@ -33,7 +35,7 @@ const SearchBar: React.FC<PropsType> = ({
     e.preventDefault();
     inputRef.current?.focus();
 
-    saveInLocalStorage(searchValue);
+    saveInLocalStorage('searchKey', searchValue);
     setCurrentPage(1);
     setSearch(searchValue.trim());
 
