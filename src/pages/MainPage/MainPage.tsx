@@ -1,108 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react';
-
-import HeroList from '../../components/HeroList/HeroList';
-import Pagination from '../../components/Pagination/Pagination';
+import React, { useEffect, useState } from 'react';
+import List from '../../components/List/List';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import ErrorBoundry from '../../service/ErrorBoundry';
-import {
-  getFromLocalStorage,
-  getSearchType,
-  saveInLocalStorage,
-} from '../../service/helpers';
-import { fetchHeroes } from '../../service/service';
-import { IHero, IResponse } from '../../types/types';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const MainPage: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { pageId } = useParams();
+  const navigate = useNavigate();
 
-  const [search, setSearch] = useState<string>(
-    getFromLocalStorage('searchKey'),
+  const savedSearch = localStorage.getItem('searchKey');
+  const [search, setSearch] = useState<string>(savedSearch ?? '');
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+
+  useEffect(
+    () => navigate(`/page/${pageId ?? 1}`, { replace: true }),
+    [pageId],
   );
-  const [heroes, setHeroes] = useState<IHero[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const [currentPageUrl, setCurrentPageUrl] = useState<string>(
-    getSearchType(search),
-  );
-  const [prevPageUrl, setPrevPageUrl] = useState<string | null>('');
-  const [nextPageUrl, setNextPageUrl] = useState<string | null>('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-
-        const {
-          results,
-          info: { next, prev },
-        }: IResponse = await fetchHeroes(currentPageUrl);
-
-        setHeroes(results);
-        setNextPageUrl(next);
-        setPrevPageUrl(prev);
-
-        if (search) {
-          saveInLocalStorage('page', currentPage.toString());
-
-          setSearchParams({ search: search, page: currentPage.toString() });
-        } else {
-          saveInLocalStorage('page', currentPage.toString());
-          setSearchParams({ page: currentPage.toString() });
-        }
-
-        setIsLoading(false);
-      } catch (err) {
-        if (err instanceof Error) {
-          throw new Error(err.message);
-        }
-      }
-    };
-
-    fetchData();
-  }, [search, currentPage, currentPageUrl]);
-
-  const prevPage = useCallback(() => {
-    if (prevPageUrl) {
-      setCurrentPageUrl(prevPageUrl);
-    }
-
-    setCurrentPage((prev) => prev - 1);
-  }, [prevPageUrl]);
-
-  const nextPage = useCallback(() => {
-    if (nextPageUrl) {
-      setCurrentPageUrl(nextPageUrl);
-    }
-
-    setCurrentPage((prev) => prev + 1);
-  }, [nextPageUrl]);
 
   return (
-    <ErrorBoundry>
-      <section className="search mb-4">
-        <SearchBar
-          setSearch={setSearch}
-          setCurrentPage={setCurrentPage}
-          setCurrentPageUrl={setCurrentPageUrl}
-        />
-      </section>
-
-      <section className="result flex gap-16 mb-4">
-        {isLoading ? <p>Loading...</p> : <HeroList heroes={heroes} />}
-        <Outlet />
-      </section>
-
-      <Pagination
-        prevPage={prevPage}
-        nextPage={nextPage}
-        currentPage={currentPage}
-        prevPageUrl={prevPageUrl}
-        nextPageUrl={nextPageUrl}
+    <>
+      <SearchBar
+        search={search}
+        setSearch={setSearch}
+        setItemsPerPage={setItemsPerPage}
       />
-    </ErrorBoundry>
+
+      <List search={search} page={+(pageId || 1)} itemsPerPage={itemsPerPage} />
+    </>
   );
 };
 

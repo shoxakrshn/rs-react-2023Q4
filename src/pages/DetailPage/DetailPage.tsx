@@ -1,69 +1,49 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { IHero } from '../../types/types';
-import { getFromLocalStorage } from '../../service/helpers';
-import { getHero } from '../../service/service';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { CharacterType } from '../../types/types';
+import Loader from '../../components/Loader/Loader';
+import { getDetails } from '../../service/service';
 
 const DetailPage: React.FC = () => {
   const { id } = useParams();
-
-  const [heroInfo, setHeroInfo] = useState<IHero>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const page = useOutletContext();
+
+  const [characterDetail, setCharacterDetail] = useState<CharacterType>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      try {
+        setIsLoading(true);
 
-      const hero: IHero = await getHero(id as string);
+        const { data } = await getDetails(id as string);
 
-      setHeroInfo(hero);
-      setIsLoading(false);
-
-      const querySearch = getFromLocalStorage('searchKey');
-      const queryPage = getFromLocalStorage('page');
-
-      if (querySearch) {
-        setSearchParams({
-          search: querySearch,
-          page: queryPage,
-        });
-      } else {
-        setSearchParams({
-          page: queryPage,
-        });
+        setCharacterDetail(data);
+        setIsLoading(false);
+      } catch {
+        throw new Error("Can't get detail info");
       }
     };
 
     fetchData();
-  }, [id, setSearchParams]);
+  }, [id]);
 
   const onCloseHandler = () => {
-    const querySearch = searchParams.get('search');
-    const queryPage = getFromLocalStorage('page');
-
-    if (querySearch) {
-      navigate(`/?search=${querySearch}&page=${queryPage}`);
-    } else {
-      navigate(`/?page=${queryPage}`);
-    }
+    navigate(`/page/${page}`);
   };
 
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : (
         <div>
           <ul className="mb-4">
             <li className="rounded overflow-hidden">
-              <img src={heroInfo?.image} alt="pic" />
+              <img src={characterDetail?.imageUrl} alt="pic" />
             </li>
-            <li>Name: {heroInfo?.name}</li>
-            <li>Gender: {heroInfo?.gender}</li>
-            <li>Species: {heroInfo?.species}</li>
-            <li>Status: {heroInfo?.status}</li>
+            <li>Name: {characterDetail?.name}</li>
           </ul>
           <button onClick={onCloseHandler}>Close</button>
         </div>

@@ -1,18 +1,29 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  createRoutesFromElements,
+  Outlet,
+} from 'react-router-dom';
+
 import './App.css';
 import MainPage from './pages/MainPage/MainPage';
-import './App.css';
 import DetailPage from './pages/DetailPage/DetailPage';
 
-const App: React.FC = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<MainPage />}>
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Outlet />}>
+      <Route index element={<MainPage />} />
+      <Route path="/page/:pageId" element={<MainPage />}>
         <Route path="character/:id" element={<DetailPage />} />
       </Route>
-    </Routes>
-  );
+    </Route>,
+  ),
+);
+
+const App: React.FC = () => {
+  return <RouterProvider router={router} />;
 };
 
 export default App;

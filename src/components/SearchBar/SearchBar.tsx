@@ -1,47 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  getFromLocalStorage,
-  saveInLocalStorage,
-  getSearchType,
-} from '../../service/helpers';
+import { useNavigate } from 'react-router-dom';
 
-interface PropsType {
+type PropsType = {
+  search: string;
   setSearch: (value: string) => void;
-  setCurrentPageUrl: (value: string) => void;
-  setCurrentPage: (value: number) => void;
-}
+  setItemsPerPage: (value: number) => void;
+};
 
 const SearchBar: React.FC<PropsType> = ({
+  search,
   setSearch,
-  setCurrentPage,
-  setCurrentPageUrl,
+  setItemsPerPage,
 }) => {
-  const [searchValue, setSearchValue] = useState<string>(
-    getFromLocalStorage('searchKey'),
-  );
-
+  const [searchValue, setSearchValue] = useState<string>(search);
   const [error, setError] = useState<string>('');
-
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  const navigate = useNavigate();
+
+  useEffect(() => inputRef.current?.focus(), []);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearchValue(e.target.value);
+
+  const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+e.target.value);
+    navigate('/page/1', { replace: true });
+  };
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     inputRef.current?.focus();
 
-    saveInLocalStorage('searchKey', searchValue);
-    setCurrentPage(1);
-    setSearch(searchValue.trim());
+    const trimedSearchValue = searchValue.trim();
 
-    const currentPageType = getSearchType(searchValue.trim());
-
-    setCurrentPageUrl(currentPageType);
+    localStorage.setItem('searchKey', trimedSearchValue);
+    setSearch(trimedSearchValue);
+    navigate('/page/1', { replace: true });
   };
 
   const showErrorBoundry = () => {
@@ -51,7 +46,7 @@ const SearchBar: React.FC<PropsType> = ({
   if (error) throw new Error();
 
   return (
-    <form onSubmit={submitHandler} className="">
+    <form onSubmit={submitHandler}>
       <input
         className="px-3 py-2 mr-4 rounded"
         type="text"
@@ -60,6 +55,11 @@ const SearchBar: React.FC<PropsType> = ({
         onChange={changeHandler}
         ref={inputRef}
       />
+      <select onChange={onSelectHandler}>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+      </select>
       <button type="submit">Get heroes</button>
       <button onClick={showErrorBoundry}>Get Error</button>
     </form>
