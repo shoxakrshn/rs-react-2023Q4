@@ -10,6 +10,7 @@ import {
 import './App.css';
 import MainPage from './pages/MainPage/MainPage';
 import DetailPage from './pages/DetailPage/DetailPage';
+import NotFoundPage from './pages/NotFound/NotFound';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       <Route path="/page/:pageId" element={<MainPage />}>
         <Route path="character/:id" element={<DetailPage />} />
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Route>,
   ),
 );
