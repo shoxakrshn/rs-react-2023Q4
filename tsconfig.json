@@ -19,8 +19,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["vitest/globals"]
   },
-  "include": ["src", ".eslintrc.json"],
+  "include": ["src", ".eslintrc.json", "setupTests.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
