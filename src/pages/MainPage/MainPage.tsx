@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import List from '../../components/List/List';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
-import { SearchProvider } from '../../context/SearchContext/SearchProvider';
-import { CharactersProvider } from '../../context/CharactersContext/CharactersProvider';
-import { PageProvider } from '../../context/PageContext/PageProvider';
+import { ContextProvider } from '../../context/ContextProvider';
 
 const MainPage: React.FC = () => {
   const { pageId } = useParams();
@@ -18,14 +16,10 @@ const MainPage: React.FC = () => {
   );
 
   return (
-    <PageProvider>
-      <SearchProvider>
-        <CharactersProvider>
-          <SearchBar setItemsPerPage={setItemsPerPage} />
-          <List itemsPerPage={itemsPerPage} />
-        </CharactersProvider>
-      </SearchProvider>
-    </PageProvider>
+    <ContextProvider>
+      <SearchBar setItemsPerPage={setItemsPerPage} />
+      <List itemsPerPage={itemsPerPage} />
+    </ContextProvider>
   );
 };
 
