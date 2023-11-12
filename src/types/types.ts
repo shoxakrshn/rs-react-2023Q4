@@ -1,25 +1,32 @@
-export interface IResponse {
+export type InfoType = {
+  totalPages: number;
   count: number;
-  next: string | null;
-  previous: string | null;
-  results: IHero[];
-}
+  previousPage: string | null;
+  nextPage: string | null;
+};
 
-export interface IHero {
-  name: string;
-  height: number;
-  mass: number;
-  hair_color: string;
-  skin_color: string;
-  eye_color: string;
-  birth_year: string;
-  gender: string;
-  homeworld: string;
-  films: string[];
-  species: string[];
-  vehicles: string[];
-  starships: string[];
-  created: Date;
-  edited: Date;
+export type CharacterType = {
+  _id: number;
   url: string;
-}
+  name: string;
+  sourceUrl: string;
+  films: string[];
+  shortFilms: string[];
+  tvShows: string[];
+  videoGames: string[];
+  alignment: string;
+  parkAttractions: string[];
+  allies: string[];
+  enemies: string[];
+  imageUrl: string;
+};
+
+export type ResponseType = {
+  info: InfoType;
+  data: CharacterType[];
+};
+
+export type DetailsResponseType = {
+  info: InfoType;
+  data: CharacterType;
+};

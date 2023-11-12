@@ -1,37 +1,29 @@
 import React from 'react';
-import { IHero } from './types/types';
-import ErrorBoundry from './service/ErrorBoundry';
-import SearchBar from './components/SearchBar/SearchBar';
-import HeroList from './components/HeroList/HeroList';
+import {
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  createRoutesFromElements,
+  Outlet,
+} from 'react-router-dom';
+
 import './App.css';
+import MainPage from './pages/MainPage/MainPage';
+import DetailPage from './pages/DetailPage/DetailPage';
 
-type StateType = {
-  heroes: IHero[];
-  isLoading: boolean;
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Outlet />}>
+      <Route index element={<MainPage />} />
+      <Route path="/page/:pageId" element={<MainPage />}>
+        <Route path="character/:id" element={<DetailPage />} />
+      </Route>
+    </Route>,
+  ),
+);
+
+const App: React.FC = () => {
+  return <RouterProvider router={router} />;
 };
-
-class App extends React.Component {
-  state: StateType = {
-    heroes: [],
-    isLoading: false,
-  };
-
-  cbHeroes = (newHeroes: IHero[]) => this.setState({ heroes: newHeroes });
-  cbLoading = (loading: boolean) => this.setState({ isLoading: loading });
-
-  render() {
-    const { heroes, isLoading } = this.state;
-    return (
-      <ErrorBoundry>
-        <section className="search mb-4">
-          <SearchBar cbHeroes={this.cbHeroes} cbLoading={this.cbLoading} />
-        </section>
-        <section className="result">
-          {isLoading ? <p>Loading...</p> : <HeroList heroes={heroes} />}
-        </section>
-      </ErrorBoundry>
-    );
-  }
-}
 
 export default App;
