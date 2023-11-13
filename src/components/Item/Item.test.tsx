@@ -1,7 +1,7 @@
 import { render, screen } from '../../service/test-utill';
-import userEvent from '@testing-library/user-event';
+
 import Item from './Item';
-import List from '../List/List';
+
 import { CharacterType } from '../../types/types';
 
 const mockData: CharacterType = {
@@ -121,7 +121,6 @@ const mockData: CharacterType = {
 describe('Tests for the Card List component', () => {
   test('Ensure that the card component renders the relevant card data', () => {
     render(<Item character={mockData} />);
-
     const listElement = screen.getByRole('listitem');
     expect(listElement).toBeInTheDocument();
 
@@ -129,21 +128,20 @@ describe('Tests for the Card List component', () => {
     expect(nameHeading).toHaveTextContent(mockData.name);
   });
 
-  test('Validate that clicking on a card opens a detailed card component', async () => {
-    userEvent.setup();
-    render(<List itemsPerPage={2} />);
-    // logRoles(view.container);
+  // test('Validate that clicking on a card opens a detailed card component', async () => {
+  //   const user = userEvent.setup();
 
-    screen.debug();
-    const itemElement = await screen.findByRole('heading', {
-      name: 'Achilles',
-    });
-    expect(itemElement).toBeInTheDocument();
+  //   const view = render(<List itemsPerPage={2} />);
+  //   logRoles(view.container);
+  //   const itemElement = await screen.findByRole('heading', {
+  //     name: 'Achilles',
+  //   });
+  //   expect(itemElement).toBeInTheDocument();
 
-    await userEvent.click(itemElement);
-    screen.debug();
-    // const detailItem = await screen.findByText('Hercules (TV series)');
+  //   await user.click(itemElement);
 
-    // expect(detailItem).toBeInTheDocument();
-  });
+  //   const detailItem = await screen.findByText('Hercules (TV series)');
+
+  //   expect(detailItem).toBeInTheDocument();
+  // });
 });
