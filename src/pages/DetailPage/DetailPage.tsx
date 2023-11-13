@@ -33,6 +33,18 @@ const DetailPage: React.FC = () => {
     navigate(`/page/${page}`);
   };
 
+  const tvShowRender = () => {
+    if (characterDetail?.tvShows.length === 0) {
+      return <p>no shows</p>;
+    }
+
+    return (
+      <>
+        {characterDetail?.tvShows.map((item, idx) => <li key={idx}>{item}</li>)}
+      </>
+    );
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -45,6 +57,8 @@ const DetailPage: React.FC = () => {
             </li>
             <li>Name: {characterDetail?.name}</li>
           </ul>
+          <ul>Tv Shows: {tvShowRender()}</ul>
+
           <button onClick={onCloseHandler}>Close</button>
         </div>
       )}

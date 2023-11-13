@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSearchContext } from '../../context/SearchContext/SearchContext';
 
 type PropsType = {
-  search: string;
-  setSearch: (value: string) => void;
   setItemsPerPage: (value: number) => void;
 };
 
-const SearchBar: React.FC<PropsType> = ({
-  search,
-  setSearch,
-  setItemsPerPage,
-}) => {
+const SearchBar: React.FC<PropsType> = ({ setItemsPerPage }) => {
+  const { search, setSearch } = useSearchContext();
+
   const [searchValue, setSearchValue] = useState<string>(search);
   const [error, setError] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);

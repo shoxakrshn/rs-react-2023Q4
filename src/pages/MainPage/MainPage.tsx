@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import List from '../../components/List/List';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ContextProvider } from '../../context/ContextProvider';
 
 const MainPage: React.FC = () => {
   const { pageId } = useParams();
   const navigate = useNavigate();
 
-  const savedSearch = localStorage.getItem('searchKey');
-  const [search, setSearch] = useState<string>(savedSearch ?? '');
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
   useEffect(
@@ -17,15 +16,10 @@ const MainPage: React.FC = () => {
   );
 
   return (
-    <>
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-        setItemsPerPage={setItemsPerPage}
-      />
-
-      <List search={search} page={+(pageId || 1)} itemsPerPage={itemsPerPage} />
-    </>
+    <ContextProvider>
+      <SearchBar setItemsPerPage={setItemsPerPage} />
+      <List itemsPerPage={itemsPerPage} />
+    </ContextProvider>
   );
 };
 

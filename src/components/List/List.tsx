@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import type { CharacterType } from '../../types/types';
 import Item from '../Item/Item';
 import Pagination from '../Pagination/Pagination';
 import Loader from '../Loader/Loader';
 import { fetchHeroes } from '../../service/service';
 import { Outlet } from 'react-router-dom';
+import { useSearchContext } from '../../context/SearchContext/SearchContext';
+import { useCharactersContext } from '../../context/CharactersContext/CharactersContext';
+import { usePageContext } from '../../context/PageContext/PageContext';
 
 type PropsType = {
-  search: string;
-  page: number;
   itemsPerPage: number;
 };
 
-const List: React.FC<PropsType> = ({ search, page, itemsPerPage }) => {
-  const [characters, setCharacters] = useState<CharacterType[]>([]);
+const List: React.FC<PropsType> = ({ itemsPerPage }) => {
+  const { search } = useSearchContext();
+  const { characters, setCharacters } = useCharactersContext();
+  const page = usePageContext();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [prevPage, setPrevPage] = useState<string | null>(null);
@@ -41,7 +44,7 @@ const List: React.FC<PropsType> = ({ search, page, itemsPerPage }) => {
 
   return (
     <main>
-      <Pagination nextPage={nextPage} prevPage={prevPage} currentPage={page} />
+      <Pagination nextPage={nextPage} prevPage={prevPage} />
       <div className="flex gap-4">
         {isLoading ? (
           <Loader />

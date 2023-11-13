@@ -1,26 +1,24 @@
 import { useNavigate } from 'react-router-dom';
+import { usePageContext } from '../../context/PageContext/PageContext';
+
 type PropsType = {
   nextPage: string | null;
   prevPage: string | null;
-  currentPage: number;
 };
 
-const Pagination: React.FC<PropsType> = ({
-  nextPage,
-  prevPage,
-  currentPage,
-}) => {
+const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
   const navigate = useNavigate();
+  const page = usePageContext();
 
-  const onPrevPage = () => navigate(`/page/${currentPage - 1}`);
-  const onNextPage = () => navigate(`/page/${currentPage + 1}`);
+  const onPrevPage = () => navigate(`/page/${page - 1}`);
+  const onNextPage = () => navigate(`/page/${page + 1}`);
 
   return (
     <div className="flex gap-4 items-center my-4">
       <button onClick={onPrevPage} disabled={prevPage === null}>
         Prev
       </button>
-      <span>{currentPage}</span>
+      <span>{page}</span>
       <button onClick={onNextPage} disabled={nextPage === null}>
         Next
       </button>
