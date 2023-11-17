@@ -16,6 +16,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
     "classnames": "^2.3.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
