@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import List from '../../components/List/List';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ContextProvider } from '../../context/ContextProvider';
+import { useSearchParams } from 'react-router-dom';
 
 const MainPage: React.FC = () => {
-  const { pageId } = useParams();
-  const navigate = useNavigate();
+  const [searhParams, setSearchParams] = useSearchParams();
+  const currentPage = searhParams.get('page');
 
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
-
-  useEffect(
-    () => navigate(`/page/${pageId ?? 1}`, { replace: true }),
-    [pageId],
-  );
+  useEffect(() => {
+    setSearchParams({ page: currentPage ?? '1' });
+  }, [currentPage]);
 
   return (
-    <ContextProvider>
-      <SearchBar setItemsPerPage={setItemsPerPage} />
-      <List itemsPerPage={itemsPerPage} />
-    </ContextProvider>
+    <main>
+      <SearchBar />
+      <List />
+    </main>
   );
 };
 
