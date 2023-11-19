@@ -3,7 +3,7 @@ import SearchBar from './SearchBar';
 
 describe('Tests for the Search component', () => {
   it('Verify that clicking the Search button saves the entered value to the local storage', () => {
-    render(<SearchBar setItemsPerPage={() => {}} />);
+    render(<SearchBar />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'fukuoka' } });
@@ -21,7 +21,12 @@ describe('Tests for the Search component', () => {
     const savedValue = 'new fukuoka';
     localStorage.setItem('searchKey', savedValue);
 
-    render(<SearchBar setItemsPerPage={() => {}} />);
+    const preloadState = {
+      search: localStorage.getItem('searchKey') ?? '',
+      pageSize: 10,
+    };
+
+    render(<SearchBar />, { preloadedState: { basic: preloadState } });
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue(savedValue);
