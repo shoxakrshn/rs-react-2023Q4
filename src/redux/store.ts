@@ -16,7 +16,10 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
     reducer: rootReducer,
     preloadedState,
     middleware: (getDefaultMiddlware) =>
-      getDefaultMiddlware().concat(disneyApi.middleware),
+      getDefaultMiddlware({
+        immutableCheck: false,
+        serializableCheck: false,
+      }).concat(disneyApi.middleware),
   });
 
 export type RootState = ReturnType<typeof rootReducer>;

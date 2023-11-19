@@ -1,10 +1,11 @@
 import { render, RenderOptions } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { configureStore, PreloadedState } from '@reduxjs/toolkit';
+import { PreloadedState } from '@reduxjs/toolkit';
 import { AppStore, RootState } from '../redux/store';
 import { Provider } from 'react-redux';
-import { rootReducer } from '../redux/store';
-import { disneyApi } from '../redux/api';
+
+import { setupStore } from '../redux/store';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
@@ -15,15 +16,12 @@ export const renderWithProviders = (
   ui: React.ReactElement,
   {
     preloadedState = {},
-    store = configureStore({
-      reducer: rootReducer,
-      preloadedState,
-      middleware: (getDefaultMiddlware) =>
-        getDefaultMiddlware().concat(disneyApi.middleware),
-    }),
+    store = setupStore(preloadedState),
     ...renderOptions
   }: ExtendedRenderOptions = {},
 ) => {
+  setupListeners(store.dispatch);
+
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
     return (
       <Provider store={store}>
