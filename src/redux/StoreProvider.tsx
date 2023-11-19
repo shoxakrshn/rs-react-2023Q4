@@ -1,5 +1,7 @@
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { setupStore } from './store';
+
+const store = setupStore();
 
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

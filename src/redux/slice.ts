@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 type StateType = {
   search: string;
@@ -25,5 +26,7 @@ const basicSlice = createSlice({
 });
 
 export const { updateSearch, updateItemsPerPage } = basicSlice.actions;
+
+export const selectBasic = (state: RootState) => state.basic;
 
 export default basicSlice.reducer;
