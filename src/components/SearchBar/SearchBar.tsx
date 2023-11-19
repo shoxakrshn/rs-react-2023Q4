@@ -32,7 +32,7 @@ const SearchBar: React.FC = () => {
 
     localStorage.setItem('searchKey', trimedSearchValue);
     dispatch(updateSearch(trimedSearchValue));
-    navigate('/page/1', { replace: true });
+    navigate('/?page=1', { replace: true });
   };
 
   const showErrorBoundry = () => {

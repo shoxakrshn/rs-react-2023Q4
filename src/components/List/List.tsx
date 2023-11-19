@@ -4,9 +4,10 @@ import Loader from '../Loader/Loader';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks';
 import { useGetCharactersQuery } from '../../redux/api';
+import { selectBasic } from '../../redux/slice';
 
 const List: React.FC = () => {
-  const { search, pageSize } = useAppSelector((state) => state.basic);
+  const { search, pageSize } = useAppSelector(selectBasic);
 
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') as string;
