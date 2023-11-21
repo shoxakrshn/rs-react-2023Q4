@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSearchContext } from '../../context/SearchContext/SearchContext';
+import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
+import { updateSearch, updateItemsPerPage } from '../../redux/slice';
 
-type PropsType = {
-  setItemsPerPage: (value: number) => void;
-};
-
-const SearchBar: React.FC<PropsType> = ({ setItemsPerPage }) => {
-  const { search, setSearch } = useSearchContext();
+const SearchBar: React.FC = () => {
+  const { search } = useAppSelector((state) => state.basic);
+  const dispatch = useAppDispatch();
 
   const [searchValue, setSearchValue] = useState<string>(search);
   const [error, setError] = useState<string>('');
@@ -21,8 +20,8 @@ const SearchBar: React.FC<PropsType> = ({ setItemsPerPage }) => {
     setSearchValue(e.target.value);
 
   const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setItemsPerPage(+e.target.value);
-    navigate('/page/1', { replace: true });
+    dispatch(updateItemsPerPage(+e.target.value));
+    navigate('/?page=1', { replace: true });
   };
 
   const submitHandler = (e: React.FormEvent) => {
@@ -32,8 +31,8 @@ const SearchBar: React.FC<PropsType> = ({ setItemsPerPage }) => {
     const trimedSearchValue = searchValue.trim();
 
     localStorage.setItem('searchKey', trimedSearchValue);
-    setSearch(trimedSearchValue);
-    navigate('/page/1', { replace: true });
+    dispatch(updateSearch(trimedSearchValue));
+    navigate('/?page=1', { replace: true });
   };
 
   const showErrorBoundry = () => {

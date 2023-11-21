@@ -1,69 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { CharacterType } from '../../types/types';
+import { useParams } from 'react-router-dom';
 import Loader from '../../components/Loader/Loader';
-import { getDetails } from '../../service/service';
+import { useGetDetailsQuery } from '../../redux/api';
+import DetailCard from '../../components/DeatilCard/DetailCard';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { selectBasic, updateLoaderDetails } from '../../redux/slice';
+import { useEffect } from 'react';
 
 const DetailPage: React.FC = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const page = useOutletContext();
+  const { loaderDetails } = useAppSelector(selectBasic);
+  const dispatch = useAppDispatch();
 
-  const [characterDetail, setCharacterDetail] = useState<CharacterType>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data, isFetching } = useGetDetailsQuery(id as string);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
+    dispatch(updateLoaderDetails(isFetching));
+  }, [isFetching]);
 
-        const { data } = await getDetails(id as string);
+  if (loaderDetails) return <Loader />;
 
-        setCharacterDetail(data);
-        setIsLoading(false);
-      } catch {
-        throw new Error("Can't get detail info");
-      }
-    };
-
-    fetchData();
-  }, [id]);
-
-  const onCloseHandler = () => {
-    navigate(`/page/${page}`);
-  };
-
-  const tvShowRender = () => {
-    if (characterDetail?.tvShows.length === 0) {
-      return <p>no shows</p>;
-    }
-
-    return (
-      <>
-        {characterDetail?.tvShows.map((item, idx) => <li key={idx}>{item}</li>)}
-      </>
-    );
-  };
-
-  return (
-    <div>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div>
-          <ul className="mb-4">
-            <li className="rounded overflow-hidden">
-              <img src={characterDetail?.imageUrl} alt="pic" />
-            </li>
-            <li>Name: {characterDetail?.name}</li>
-          </ul>
-          <ul>Tv Shows: {tvShowRender()}</ul>
-
-          <button onClick={onCloseHandler}>Close</button>
-        </div>
-      )}
-    </div>
-  );
+  return <DetailCard character={data?.data} />;
 };
 
 export default DetailPage;
