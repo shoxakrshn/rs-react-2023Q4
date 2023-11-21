@@ -1,12 +1,7 @@
 import { render, screen } from '../../service/test-utill';
 import List from './List';
-// import { mockResponse } from '../../service/mockData';
-import { ContextProvider } from '../../context/ContextProvider';
 
-// const data = {
-//   characters: mockResponse.data,
-//   setCharacters: () => {},
-// };
+import { ContextProvider } from '../../context/ContextProvider';
 
 describe('Tests for the Card List component', async () => {
   test('Verify that the component renders the specified number of cards', async () => {

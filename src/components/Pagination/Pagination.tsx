@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 
 type PropsType = {
-  nextPage: string | null | undefined;
-  prevPage: string | null | undefined;
+  nextPage: string | null;
+  prevPage: string | null;
 };
 
 const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {

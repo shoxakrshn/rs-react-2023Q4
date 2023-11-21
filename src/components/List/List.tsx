@@ -34,8 +34,8 @@ const List: React.FC = () => {
   return (
     <main>
       <Pagination
-        nextPage={data?.info.nextPage}
-        prevPage={data?.info.previousPage}
+        nextPage={data ? data.info.nextPage : null}
+        prevPage={data ? data.info.previousPage : null}
       />
       <div className="flex gap-4">
         <ul className="flex flex-wrap gap-x-2  basis-[300px] grow max-w-[853px] gap-y-5 mb-4">
