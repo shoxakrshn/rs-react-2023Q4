@@ -24,6 +24,8 @@ describe('Tests for the Search component', () => {
     const preloadState = {
       search: localStorage.getItem('searchKey') ?? '',
       pageSize: 10,
+      loaderSearch: false,
+      loaderDetails: false,
     };
 
     render(<SearchBar />, { preloadedState: { basic: preloadState } });
