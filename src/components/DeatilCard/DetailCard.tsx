@@ -9,18 +9,6 @@ const DetailCard: React.FC<PropsType> = ({ character }) => {
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') as string;
 
-  const tvShowRender = () => {
-    if (character?.tvShows.length === 0) {
-      return <p>no shows</p>;
-    }
-
-    return (
-      <ul className="mb-4">
-        Tv Shows:
-        {character?.tvShows.map((item, idx) => <li key={idx}>{item}</li>)}
-      </ul>
-    );
-  };
   return (
     <div>
       <ul className="mb-4">
@@ -29,7 +17,10 @@ const DetailCard: React.FC<PropsType> = ({ character }) => {
         </li>
         <li>Name: {character?.name}</li>
       </ul>
-      {tvShowRender()}
+      <ul className="mb-4">
+        Tv Shows:
+        {character?.tvShows.map((item, idx) => <li key={idx}>{item}</li>)}
+      </ul>
       <Link to={`/?page=${currentPage}`}>Close</Link>
     </div>
   );
