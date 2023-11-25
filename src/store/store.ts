@@ -3,12 +3,14 @@ import {
   combineReducers,
   configureStore,
 } from '@reduxjs/toolkit';
-import basicReducer from './slice';
-import { disneyApi } from './api';
+import searchReducer from './slices/search.slice';
+import pageReducer from './slices/page.slice';
+import { disneyApi } from './query/api';
 import { createWrapper } from 'next-redux-wrapper';
 
 export const rootReducer = combineReducers({
-  basic: basicReducer,
+  search: searchReducer,
+  page: pageReducer,
   [disneyApi.reducerPath]: disneyApi.reducer,
 });
 

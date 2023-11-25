@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { RootState } from '../store';
+import { HYDRATE } from 'next-redux-wrapper';
 
 type StateType = {
   search: string;
@@ -15,7 +16,7 @@ const initialState: StateType = {
   loaderDetails: false,
 };
 
-const basicSlice = createSlice({
+const searchSlice = createSlice({
   name: 'basic',
   initialState,
   reducers: {
@@ -35,6 +36,14 @@ const basicSlice = createSlice({
       state.loaderDetails = action.payload;
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.subject,
+      };
+    },
+  },
 });
 
 export const {
@@ -42,8 +51,8 @@ export const {
   updateItemsPerPage,
   updateLoaderSearch,
   updateLoaderDetails,
-} = basicSlice.actions;
+} = searchSlice.actions;
 
-export const selectBasic = (state: RootState) => state.basic;
+export const selectSearch = (state: RootState) => state.search;
 
-export default basicSlice.reducer;
+export default searchSlice.reducer;
