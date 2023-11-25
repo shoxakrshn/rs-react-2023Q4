@@ -1,4 +1,9 @@
-import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
+import {
+  selectPage,
+  updateNextPage,
+  updatePrevPage,
+} from '@/store/slices/page.slice';
 
 type PropsType = {
   nextPage: string | null;
@@ -6,11 +11,15 @@ type PropsType = {
 };
 
 const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
-  const router = useRouter();
-  const currentPage = +(router.query.page as string);
+  const { currentPage } = useAppSelector(selectPage);
+  const dispatch = useAppDispatch();
 
-  const onPrevPage = () => router.push(`/?page=${currentPage - 1}`);
-  const onNextPage = () => router.push(`/?page=${currentPage + 1}`);
+  const onPrevPage = () => {
+    dispatch(updatePrevPage());
+  };
+  const onNextPage = () => {
+    dispatch(updateNextPage());
+  };
 
   return (
     <div className="flex gap-4 items-center my-4">

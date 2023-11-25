@@ -1,22 +1,25 @@
 import Item from '../Item/Item';
 import Pagination from '../Pagination/Pagination';
 import Loader from '../Loader/Loader';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { useGetCharactersQuery } from '../../store/api';
-import { useEffect } from 'react';
-import { selectBasic, updateLoaderSearch } from '../../store/slice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
+import { useGetCharactersQuery } from '../../store/query/api';
+import React, { useEffect } from 'react';
+import {
+  selectSearch,
+  updateLoaderSearch,
+} from '../../store/slices/search.slice';
 import { useRouter } from 'next/router';
 
-const List: React.FC = () => {
-  const { search, pageSize, loaderSearch } = useAppSelector(selectBasic);
+const List: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { search, pageSize, loaderSearch } = useAppSelector(selectSearch);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const currentPage = +(router.query.page as string);
+  const currentPage = +(router.query.page ?? 1);
 
   const { data, isFetching } = useGetCharactersQuery({
     search,
     pageSize,
-    pageNumber: currentPage || 1,
+    pageNumber: currentPage,
   });
 
   useEffect(() => {
@@ -41,6 +44,7 @@ const List: React.FC = () => {
             <Item character={character} key={character._id} />
           ))}
         </ul>
+        {children}
       </div>
     </main>
   );

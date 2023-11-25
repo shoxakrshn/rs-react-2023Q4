@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from '../../store/hooks';
-import { useAppDispatch } from '../../store/hooks';
-import { updateSearch, updateItemsPerPage } from '../../store/slice';
-import { useRouter } from 'next/router';
+import { useAppSelector } from '@/store/hooks/hooks';
+import { useAppDispatch } from '@/store/hooks/hooks';
+import {
+  updateSearch,
+  updateItemsPerPage,
+  selectSearch,
+} from '@/store/slices/search.slice';
+import { returnFirstCurrentPage } from '@/store/slices/page.slice';
 
 const SearchBar: React.FC = () => {
-  const { search } = useAppSelector((state) => state.basic);
+  const { search } = useAppSelector(selectSearch);
   const dispatch = useAppDispatch();
-  const router = useRouter();
 
   const [searchValue, setSearchValue] = useState<string>(search);
   const [error, setError] = useState<string>('');
@@ -20,7 +23,7 @@ const SearchBar: React.FC = () => {
 
   const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateItemsPerPage(+e.target.value));
-    router.push(`/?page=1`);
+    dispatch(returnFirstCurrentPage());
   };
 
   const submitHandler = (e: React.FormEvent) => {
@@ -30,9 +33,8 @@ const SearchBar: React.FC = () => {
     const trimedSearchValue = searchValue.trim();
 
     localStorage.setItem('searchKey', trimedSearchValue);
+    dispatch(returnFirstCurrentPage());
     dispatch(updateSearch(trimedSearchValue));
-
-    router.push(`/?page=1`);
   };
 
   const showErrorBoundry = () => {
