@@ -30,4 +30,9 @@ export const disneyApi = createApi({
   }),
 });
 
-export const { useGetCharactersQuery, useGetDetailsQuery } = disneyApi;
+export const {
+  useGetCharactersQuery,
+  useGetDetailsQuery,
+  util: { getRunningQueriesThunk },
+} = disneyApi;
+export const { getCharacters, getDetails } = disneyApi.endpoints;

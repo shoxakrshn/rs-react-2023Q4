@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { HYDRATE } from 'next-redux-wrapper';
 
@@ -11,7 +11,7 @@ const initialState: StateType = {
 };
 
 const pageSlice = createSlice({
-  name: 'basic',
+  name: 'page',
   initialState,
   reducers: {
     returnFirstCurrentPage: (state) => {
@@ -27,10 +27,10 @@ const pageSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(HYDRATE, (state, action) => {
+    builder.addCase(HYDRATE, (state, action: AnyAction) => {
       return {
         ...state,
-        ...action,
+        ...action.payload.page,
       };
     });
   },

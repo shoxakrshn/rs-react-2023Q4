@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { AnyAction, PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { HYDRATE } from 'next-redux-wrapper';
 
@@ -17,7 +17,7 @@ const initialState: StateType = {
 };
 
 const searchSlice = createSlice({
-  name: 'basic',
+  name: 'search',
   initialState,
   reducers: {
     updateSearch: (state, action: PayloadAction<string>) => {
@@ -36,13 +36,13 @@ const searchSlice = createSlice({
       state.loaderDetails = action.payload;
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (state, action: AnyAction) => {
       return {
         ...state,
-        ...action.payload.subject,
+        ...action.payload.search,
       };
-    },
+    });
   },
 });
 
