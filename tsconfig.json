@@ -14,10 +14,18 @@
     "jsx": "preserve",
     "incremental": true,
     "noImplicitAny": true,
+    "types": ["vitest/globals"],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", ".eslintrc.json", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    ".eslintrc.json",
+    "**/*.ts",
+    "**/*.tsx",
+    "jest.config.js",
+    "jest.setup.js"
+  ],
   "exclude": ["node_modules"]
 }
