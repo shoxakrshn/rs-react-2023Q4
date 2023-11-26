@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { CharacterType } from '../../types/types';
 import { useAppSelector } from '@/store/hooks/hooks';
 import { selectPage } from '@/store/slices/page.slice';
@@ -14,7 +15,7 @@ const DetailCard: React.FC<PropsType> = ({ character }) => {
     <div>
       <ul className="mb-4">
         <li className="rounded overflow-hidden">
-          <img src={character?.imageUrl} alt="pic" />
+          <Image src={character.imageUrl} width={300} height={200} alt="pic" />
         </li>
         <li>Name: {character?.name}</li>
       </ul>
