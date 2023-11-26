@@ -8,13 +8,15 @@ import {
   selectSearch,
   updateLoaderSearch,
 } from '../../store/slices/search.slice';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
+import { selectPage } from '@/store/slices/page.slice';
 
 const List: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { search, pageSize, loaderSearch } = useAppSelector(selectSearch);
+  const { currentPage } = useAppSelector(selectPage);
   const dispatch = useAppDispatch();
-  const router = useRouter();
-  const currentPage = +(router.query.page ?? 1);
+  // const router = useRouter();
+  // const currentPage = +(router.query.page ?? 1);
 
   const { data, isFetching } = useGetCharactersQuery({
     search,
