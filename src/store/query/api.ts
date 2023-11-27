@@ -4,8 +4,8 @@ import { HYDRATE } from 'next-redux-wrapper';
 
 type optionsType = {
   search: string;
-  pageSize: number;
-  pageNumber: number;
+  pageSize: string;
+  pageNumber: string;
 };
 
 export const disneyApi = createApi({

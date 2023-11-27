@@ -1,33 +1,43 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { CharacterType } from '../../types/types';
-import { useAppSelector } from '@/store/hooks/hooks';
-import { selectPage } from '@/store/slices/page.slice';
+import { useRouter } from 'next/router';
 
 type PropsType = {
   character: CharacterType;
 };
 
 const DetailCard: React.FC<PropsType> = ({ character }) => {
-  const { currentPage } = useAppSelector(selectPage);
+  const router = useRouter();
+  const { page, limit, search } = router.query;
+
+  const href = search
+    ? {
+        pathname: `/`,
+        query: { page, limit, search },
+      }
+    : {
+        pathname: `/`,
+        query: { page, limit },
+      };
 
   return (
     <div>
       <ul className="mb-4">
         <li className="rounded overflow-hidden">
-          <Image src={character.imageUrl} width={300} height={200} alt="pic" />
+          <Image src={character?.imageUrl} width={300} height={200} alt="pic" />
         </li>
         <li>Name: {character?.name}</li>
       </ul>
       <ul className="mb-4">
         Tv Shows:
-        {character.tvShows.length ? (
+        {character?.tvShows.length ? (
           character.tvShows.map((item, idx) => <li key={idx}>{item}</li>)
         ) : (
           <p>no TV shows</p>
         )}
       </ul>
-      <Link href={`/?page=${currentPage}`}>Close</Link>
+      <Link href={href}>Close</Link>
     </div>
   );
 };

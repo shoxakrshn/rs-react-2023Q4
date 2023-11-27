@@ -1,38 +1,17 @@
 import Item from '../Item/Item';
 import Pagination from '../Pagination/Pagination';
-import Loader from '../Loader/Loader';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
-import { useGetCharactersQuery } from '../../store/query/api';
-import React, { useEffect } from 'react';
-import {
-  selectSearch,
-  updateLoaderSearch,
-} from '../../store/slices/search.slice';
-// import { useRouter } from 'next/router';
-import { selectPage } from '@/store/slices/page.slice';
+import React from 'react';
+import type { ResponseType } from '@/types/types';
 
-const List: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { search, pageSize, loaderSearch } = useAppSelector(selectSearch);
-  const { currentPage } = useAppSelector(selectPage);
-  const dispatch = useAppDispatch();
-  // const router = useRouter();
-  // const currentPage = +(router.query.page ?? 1);
+type PropsType = {
+  children?: React.ReactNode;
+  data: ResponseType | undefined;
+};
 
-  const { data, isFetching } = useGetCharactersQuery({
-    search,
-    pageSize,
-    pageNumber: currentPage,
-  });
-
-  useEffect(() => {
-    dispatch(updateLoaderSearch(isFetching));
-  }, [isFetching]);
-
+const List: React.FC<PropsType> = ({ data, children }) => {
   if (data?.data.length === 0) {
     return <p>no results</p>;
   }
-
-  if (loaderSearch) return <Loader />;
 
   return (
     <main>

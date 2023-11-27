@@ -1,18 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from '@/store/hooks/hooks';
-import { useAppDispatch } from '@/store/hooks/hooks';
-import {
-  updateSearch,
-  updateItemsPerPage,
-  selectSearch,
-} from '@/store/slices/search.slice';
-import { returnFirstCurrentPage } from '@/store/slices/page.slice';
+import { useRouter } from 'next/router';
 
 const SearchBar: React.FC = () => {
-  const { search } = useAppSelector(selectSearch);
-  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { page, limit, search } = router.query;
 
-  const [searchValue, setSearchValue] = useState<string>(search);
+  const [searchValue, setSearchValue] = useState<string>(search as string);
   const [error, setError] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,8 +15,16 @@ const SearchBar: React.FC = () => {
     setSearchValue(e.target.value);
 
   const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(updateItemsPerPage(+e.target.value));
-    dispatch(returnFirstCurrentPage());
+    const href = search
+      ? {
+          pathname: '/',
+          query: { page, limit: e.target.value, search },
+        }
+      : {
+          pathname: '/',
+          query: { page, limit: e.target.value },
+        };
+    router.push(href);
   };
 
   const submitHandler = (e: React.FormEvent) => {
@@ -32,9 +33,17 @@ const SearchBar: React.FC = () => {
 
     const trimedSearchValue = searchValue.trim();
 
-    localStorage.setItem('searchKey', trimedSearchValue);
-    dispatch(returnFirstCurrentPage());
-    dispatch(updateSearch(trimedSearchValue));
+    const href = searchValue
+      ? {
+          pathname: '/',
+          query: { page, limit, search: trimedSearchValue },
+        }
+      : {
+          pathname: '/',
+          query: { page, limit },
+        };
+
+    router.push(href);
   };
 
   const showErrorBoundry = () => {
@@ -53,7 +62,7 @@ const SearchBar: React.FC = () => {
         onChange={changeHandler}
         ref={inputRef}
       />
-      <select onChange={onSelectHandler}>
+      <select onChange={onSelectHandler} value={limit}>
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="30">30</option>

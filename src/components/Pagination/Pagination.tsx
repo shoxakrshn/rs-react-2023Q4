@@ -1,9 +1,3 @@
-import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
-import {
-  selectPage,
-  updateNextPage,
-  updatePrevPage,
-} from '@/store/slices/page.slice';
 import { useRouter } from 'next/router';
 
 type PropsType = {
@@ -13,16 +7,48 @@ type PropsType = {
 
 const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
   const router = useRouter();
-  const { currentPage } = useAppSelector(selectPage);
-  const dispatch = useAppDispatch();
+  const { page, limit, search } = router.query;
 
   const onPrevPage = () => {
-    dispatch(updatePrevPage());
-    router.push(`/?page=${currentPage}`);
+    const href = search
+      ? {
+          pathname: '/',
+          query: {
+            page: +(page as string) - 1,
+            limit,
+            search,
+          },
+        }
+      : {
+          pathname: '/',
+          query: {
+            page: +(page as string) - 1,
+            limit,
+          },
+        };
+
+    router.push(href);
   };
+
   const onNextPage = () => {
-    dispatch(updateNextPage());
-    router.push(`/?page=${currentPage}`);
+    const href = search
+      ? {
+          pathname: '/',
+          query: {
+            page: +(page as string) + 1,
+            limit,
+            search,
+          },
+        }
+      : {
+          pathname: '/',
+          query: {
+            page: +(page as string) + 1,
+            limit,
+          },
+        };
+
+    router.push(href);
   };
 
   return (
@@ -30,7 +56,7 @@ const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
       <button onClick={onPrevPage} disabled={prevPage === null}>
         Prev
       </button>
-      <span>{currentPage}</span>
+      <span>{page}</span>
       <button onClick={onNextPage} disabled={nextPage === null}>
         Next
       </button>

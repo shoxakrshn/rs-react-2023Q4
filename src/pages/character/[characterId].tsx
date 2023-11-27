@@ -1,27 +1,42 @@
 import DetailCard from '../../components/DeatilCard/DetailCard';
-import { CharacterType } from '@/types/types';
 import { GetServerSidePropsContext } from 'next';
+import Layout from '@/components/Layout/Layout';
+import {
+  getDetails,
+  getRunningQueriesThunk,
+  useGetDetailsQuery,
+} from '@/store/query/api';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { useRouter } from 'next/router';
+import { wrapper } from '@/store/store';
 
-type PropsType = {
-  characterData: CharacterType;
-};
+const CharacterDetailPage: React.FC = () => {
+  const router = useRouter();
+  const { characterId } = router.query;
 
-const CharacterDetailPage: React.FC<PropsType> = ({ characterData }) => {
-  // const { data } = useGetDetailsQuery(characterId);
-
-  return <DetailCard character={characterData} />;
-};
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const characterId = context.params?.characterId;
-  const request = await fetch(
-    `https://api.disneyapi.dev/character/${characterId}`,
+  const { data } = useGetDetailsQuery(
+    typeof characterId === 'string' ? characterId : skipToken,
+    {
+      skip: router.isFallback,
+    },
   );
 
-  const response = await request.json();
-  const { data: characterData } = response;
+  return <Layout>{data && <DetailCard character={data.data} />}</Layout>;
+};
 
-  return { props: { characterData } };
-}
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (context: GetServerSidePropsContext) => {
+    const characterId = context.params?.characterId;
+    if (typeof characterId === 'string') {
+      store.dispatch(getDetails.initiate(characterId));
+    }
+
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
+
+    return {
+      props: {},
+    };
+  },
+);
 
 export default CharacterDetailPage;
