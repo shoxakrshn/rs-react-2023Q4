@@ -14,7 +14,11 @@ export default defineConfig({
       reportsDirectory: './src/tests/coverage',
       all: true,
       include: ['src/components/**/*.tsx'],
-      exclude: ['/_app.tsx', '**/_document.tsx'],
+      exclude: [
+        '/_app.tsx',
+        '**/_document.tsx',
+        'src/components/Layout/Layout.tsx',
+      ],
     },
   },
   resolve: {

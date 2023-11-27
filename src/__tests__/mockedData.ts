@@ -64,3 +64,20 @@ export const mockCharacter = {
   url: 'https://api.disneyapi.dev/characters/112',
   alignment: '',
 };
+
+export const mockNoTvShows = {
+  _id: 112,
+  films: ['Hercules (film)'],
+  shortFilms: [],
+  tvShows: [],
+  videoGames: ['Kingdom Hearts III'],
+  parkAttractions: [],
+  allies: [],
+  enemies: [],
+  sourceUrl: 'https://disney.fandom.com/wiki/Achilles_(Hercules)',
+  name: 'Achilles',
+  imageUrl:
+    'https://static.wikia.nocookie.net/disney/images/d/d3/Vlcsnap-2015-05-06-23h04m15s601.png',
+  url: 'https://api.disneyapi.dev/characters/112',
+  alignment: '',
+};
