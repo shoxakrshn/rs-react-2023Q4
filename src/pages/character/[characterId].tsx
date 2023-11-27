@@ -7,12 +7,11 @@ import {
   useGetDetailsQuery,
 } from '@/store/query/disneyApi';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { useRouter } from 'next/router';
 import { wrapper } from '@/store/store';
+import { useAppRouter } from '@/hooks/useAppRouter';
 
 const CharacterDetailPage: React.FC = () => {
-  const router = useRouter();
-  const { characterId } = router.query;
+  const { router, characterId } = useAppRouter();
 
   const { data } = useGetDetailsQuery(
     typeof characterId === 'string' ? characterId : skipToken,

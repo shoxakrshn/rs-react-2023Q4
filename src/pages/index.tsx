@@ -1,14 +1,13 @@
 import Layout from '@/components/Layout/Layout';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { getCharacters, getRunningQueriesThunk } from '@/store/query/disneyApi';
 
 import { wrapper } from '@/store/store';
 import { GetServerSidePropsContext } from 'next';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const router = useRouter();
-  const { page, limit, search } = router.query;
+  const { router, page, limit, search } = useAppRouter();
 
   const href = search
     ? {

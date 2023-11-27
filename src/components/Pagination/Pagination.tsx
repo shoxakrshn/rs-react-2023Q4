@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useAppRouter } from '@/hooks/useAppRouter';
 
 type PropsType = {
   nextPage: string | null;
@@ -6,8 +6,7 @@ type PropsType = {
 };
 
 const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
-  const router = useRouter();
-  const { page, limit, search } = router.query;
+  const { router, page, limit, search } = useAppRouter();
 
   const onPrevPage = () => {
     const href = search

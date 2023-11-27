@@ -1,15 +1,14 @@
 import SearchBar from '../SearchBar/SearchBar';
 import List from '../List/List';
-import { useRouter } from 'next/router';
 import { useGetCharactersQuery } from '@/store/query/disneyApi';
+import { useAppRouter } from '@/hooks/useAppRouter';
 
 type PropsType = {
   children?: React.ReactNode;
 };
 
 const Layout: React.FC<PropsType> = ({ children }) => {
-  const router = useRouter();
-  const { page, limit, search } = router.query;
+  const { page, limit, search } = useAppRouter();
 
   const { data } = useGetCharactersQuery({
     search: (search as string) || '',

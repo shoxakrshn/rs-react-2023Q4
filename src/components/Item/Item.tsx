@@ -1,6 +1,6 @@
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { CharacterType } from '@/types/types';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 type PropsType = {
@@ -8,8 +8,7 @@ type PropsType = {
 };
 
 const CardItem: React.FC<PropsType> = ({ character }) => {
-  const router = useRouter();
-  const { page, limit, search } = router.query;
+  const { page, limit, search } = useAppRouter();
 
   const href = search
     ? {

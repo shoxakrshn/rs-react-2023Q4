@@ -1,15 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { CharacterType } from '../../types/types';
-import { useRouter } from 'next/router';
+import { useAppRouter } from '@/hooks/useAppRouter';
 
 type PropsType = {
   character: CharacterType;
 };
 
 const DetailCard: React.FC<PropsType> = ({ character }) => {
-  const router = useRouter();
-  const { page, limit, search } = router.query;
+  const { page, limit, search } = useAppRouter();
 
   const href = search
     ? {

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useAppRouter } from '@/hooks/useAppRouter';
 
 const SearchBar: React.FC = () => {
-  const router = useRouter();
-  const { page, limit, search } = router.query;
+  const { router, limit, search } = useAppRouter();
 
   const [searchValue, setSearchValue] = useState<string>(search as string);
   const [error, setError] = useState<string>('');
@@ -18,11 +17,11 @@ const SearchBar: React.FC = () => {
     const href = search
       ? {
           pathname: '/',
-          query: { page, limit: e.target.value, search },
+          query: { page: '1', limit: e.target.value, search },
         }
       : {
           pathname: '/',
-          query: { page, limit: e.target.value },
+          query: { page: '1', limit: e.target.value },
         };
     router.push(href);
   };
@@ -36,11 +35,11 @@ const SearchBar: React.FC = () => {
     const href = searchValue
       ? {
           pathname: '/',
-          query: { page, limit, search: trimedSearchValue },
+          query: { page: '1', limit, search: trimedSearchValue },
         }
       : {
           pathname: '/',
-          query: { page, limit },
+          query: { page: '1', limit },
         };
 
     router.push(href);
