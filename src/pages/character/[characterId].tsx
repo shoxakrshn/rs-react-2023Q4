@@ -5,7 +5,7 @@ import {
   getDetails,
   getRunningQueriesThunk,
   useGetDetailsQuery,
-} from '@/store/query/api';
+} from '@/store/query/disneyApi';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useRouter } from 'next/router';
 import { wrapper } from '@/store/store';

@@ -1,5 +1,5 @@
 import Layout from '@/components/Layout/Layout';
-import { getCharacters, getRunningQueriesThunk } from '@/store/query/api';
+import { getCharacters, getRunningQueriesThunk } from '@/store/query/disneyApi';
 
 import { wrapper } from '@/store/store';
 import { GetServerSidePropsContext } from 'next';
