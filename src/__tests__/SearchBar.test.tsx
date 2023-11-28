@@ -30,4 +30,44 @@ describe('SearchBar test', () => {
     fireEvent.change(input, { target: { value: 'fukuoka' } });
     expect(screen.getByDisplayValue('fukuoka')).toBeInTheDocument();
   });
+
+  test('Verify search query-param after submitting', () => {
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <SearchBar />
+      </RouterContext.Provider>,
+    );
+
+    const inputElement = screen.getByRole('textbox');
+    const buttonElement = screen.getByRole('button', { name: 'Get heroes' });
+
+    expect(mockRouter.query).toEqual({ page: '1', limit: '10' });
+
+    fireEvent.change(inputElement, { target: { value: 'fukuoka' } });
+    fireEvent.click(buttonElement);
+
+    expect(mockRouter.query).toEqual({
+      page: '1',
+      limit: '10',
+      search: 'fukuoka',
+    });
+
+    fireEvent.change(inputElement, { target: { value: '' } });
+    fireEvent.click(buttonElement);
+    expect(mockRouter.query).toEqual({ page: '1', limit: '10' });
+  });
+
+  test('Verify limit query-param after submitting', () => {
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <SearchBar />
+      </RouterContext.Provider>,
+    );
+
+    const selectElement = screen.getByRole('combobox');
+    expect(mockRouter.query).toEqual({ page: '1', limit: '10' });
+
+    fireEvent.change(selectElement, { target: { value: '20' } });
+    expect(mockRouter.query).toEqual({ page: '1', limit: '20' });
+  });
 });
