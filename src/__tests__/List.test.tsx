@@ -6,7 +6,7 @@ import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtim
 import List from '@/components/List/List';
 import { mockResponse } from './mockedData';
 
-describe('SearchBar test', () => {
+describe('List test', () => {
   mockRouter.setCurrentUrl('/?page=1&limit=10');
 
   test('The component is rendered', () => {

@@ -6,7 +6,7 @@ import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtim
 import DetailCard from '@/components/DeatilCard/DetailCard';
 import { mockCharacter, mockNoTvShows } from './mockedData';
 
-describe('SearchBar test', () => {
+describe('DetailCard test', () => {
   mockRouter.setCurrentUrl('/?page=1&limit=10');
 
   test('The component is rendered', () => {

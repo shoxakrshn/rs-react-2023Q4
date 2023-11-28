@@ -5,7 +5,7 @@ import { expect, test } from 'vitest';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Pagination from '@/components/Pagination/Pagination';
 
-describe('SearchBar test', () => {
+describe('Pagination test', () => {
   mockRouter.setCurrentUrl('/?page=1&limit=10');
 
   test('The component is rendered', () => {
