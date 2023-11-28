@@ -67,4 +67,21 @@ describe('Pagination test', () => {
     const prevButton = screen.getByRole('button', { name: 'Prev' });
     expect(prevButton).toBeDisabled();
   });
+
+  test('Verify prev page is disabled for the first page', () => {
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <Pagination
+          nextPage={'http://api.disneyapi.dev/character?page=2&pageSize=10'}
+          prevPage={null}
+        />
+      </RouterContext.Provider>,
+    );
+
+    const nextButton = screen.getByRole('button', { name: 'Next' });
+    fireEvent.click(nextButton);
+
+    const pageNumber = screen.getByTestId('pageSpan');
+    expect(pageNumber).toHaveTextContent('0');
+  });
 });

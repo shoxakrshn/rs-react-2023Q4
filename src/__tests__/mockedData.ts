@@ -81,3 +81,13 @@ export const mockNoTvShows = {
   url: 'https://api.disneyapi.dev/characters/112',
   alignment: '',
 };
+
+export const mockEmptyResponse = {
+  info: {
+    count: 10,
+    totalPages: 744,
+    previousPage: null,
+    nextPage: 'http://api.disneyapi.dev/character?page=2&pageSize=10',
+  },
+  data: [],
+};

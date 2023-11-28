@@ -56,7 +56,7 @@ const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
       <button onClick={onPrevPage} disabled={prevPage === null}>
         Prev
       </button>
-      <span>{page}</span>
+      <span data-testid="pageSpan">{page}</span>
       <button onClick={onNextPage} disabled={nextPage === null}>
         Next
       </button>
