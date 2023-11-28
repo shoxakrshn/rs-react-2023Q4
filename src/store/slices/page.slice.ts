@@ -1,5 +1,4 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
 import { HYDRATE } from 'next-redux-wrapper';
 
 type StateType = {
@@ -38,7 +37,5 @@ const pageSlice = createSlice({
 
 export const { returnFirstCurrentPage, updateNextPage, updatePrevPage } =
   pageSlice.actions;
-
-export const selectPage = (state: RootState) => state.page;
 
 export default pageSlice.reducer;

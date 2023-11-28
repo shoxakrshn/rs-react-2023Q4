@@ -1,5 +1,4 @@
 import { AnyAction, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
 import { HYDRATE } from 'next-redux-wrapper';
 
 type StateType = {
@@ -52,7 +51,5 @@ export const {
   updateLoaderSearch,
   updateLoaderDetails,
 } = searchSlice.actions;
-
-export const selectSearch = (state: RootState) => state.search;
 
 export default searchSlice.reducer;
