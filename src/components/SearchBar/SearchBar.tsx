@@ -1,18 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../redux/hooks';
-import { useAppDispatch } from '../../redux/hooks';
-import { updateSearch, updateItemsPerPage } from '../../redux/slice';
+import { useAppRouter } from '@/hooks/useAppRouter';
 
 const SearchBar: React.FC = () => {
-  const { search } = useAppSelector((state) => state.basic);
-  const dispatch = useAppDispatch();
+  const { router, limit, search } = useAppRouter();
 
-  const [searchValue, setSearchValue] = useState<string>(search);
+  const [searchValue, setSearchValue] = useState<string>(search as string);
   const [error, setError] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const navigate = useNavigate();
 
   useEffect(() => inputRef.current?.focus(), []);
 
@@ -20,8 +14,16 @@ const SearchBar: React.FC = () => {
     setSearchValue(e.target.value);
 
   const onSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(updateItemsPerPage(+e.target.value));
-    navigate('/?page=1', { replace: true });
+    const href = search
+      ? {
+          pathname: '/',
+          query: { page: '1', limit: e.target.value, search },
+        }
+      : {
+          pathname: '/',
+          query: { page: '1', limit: e.target.value },
+        };
+    router.push(href, undefined, { shallow: true });
   };
 
   const submitHandler = (e: React.FormEvent) => {
@@ -30,9 +32,17 @@ const SearchBar: React.FC = () => {
 
     const trimedSearchValue = searchValue.trim();
 
-    localStorage.setItem('searchKey', trimedSearchValue);
-    dispatch(updateSearch(trimedSearchValue));
-    navigate('/?page=1', { replace: true });
+    const href = searchValue
+      ? {
+          pathname: '/',
+          query: { page: '1', limit, search: trimedSearchValue },
+        }
+      : {
+          pathname: '/',
+          query: { page: '1', limit },
+        };
+
+    router.push(href, undefined, { shallow: true });
   };
 
   const showErrorBoundry = () => {
@@ -51,7 +61,7 @@ const SearchBar: React.FC = () => {
         onChange={changeHandler}
         ref={inputRef}
       />
-      <select onChange={onSelectHandler}>
+      <select onChange={onSelectHandler} value={limit}>
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="30">30</option>

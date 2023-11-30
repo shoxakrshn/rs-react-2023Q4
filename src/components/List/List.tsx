@@ -1,35 +1,17 @@
 import Item from '../Item/Item';
 import Pagination from '../Pagination/Pagination';
-import Loader from '../Loader/Loader';
-import { Outlet, useSearchParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { useGetCharactersQuery } from '../../redux/api';
-import { selectBasic } from '../../redux/slice';
-import { useEffect } from 'react';
-import { updateLoaderSearch } from '../../redux/slice';
+import React from 'react';
+import type { ResponseType } from '@/types/types';
 
-const List: React.FC = () => {
-  const { search, pageSize, loaderSearch } = useAppSelector(selectBasic);
-  const dispatch = useAppDispatch();
+type PropsType = {
+  children?: React.ReactNode;
+  data: ResponseType | undefined;
+};
 
-  const [searchParams] = useSearchParams();
-  const currentPage = searchParams.get('page') as string;
-
-  const { data, isFetching } = useGetCharactersQuery({
-    search,
-    pageSize,
-    pageNumber: +currentPage || 1,
-  });
-
-  useEffect(() => {
-    dispatch(updateLoaderSearch(isFetching));
-  }, [isFetching]);
-
+const List: React.FC<PropsType> = ({ data, children }) => {
   if (data?.data.length === 0) {
     return <p>no results</p>;
   }
-
-  if (loaderSearch) return <Loader />;
 
   return (
     <main>
@@ -43,8 +25,7 @@ const List: React.FC = () => {
             <Item character={character} key={character._id} />
           ))}
         </ul>
-
-        <Outlet context={currentPage} />
+        {children}
       </div>
     </main>
   );

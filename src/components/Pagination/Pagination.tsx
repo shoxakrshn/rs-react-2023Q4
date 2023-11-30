@@ -1,4 +1,5 @@
-import { useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { useAppRouter } from '@/hooks/useAppRouter';
 
 type PropsType = {
   nextPage: string | null;
@@ -6,18 +7,56 @@ type PropsType = {
 };
 
 const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = +(searchParams.get('page') as string);
+  const { router, page, limit, search } = useAppRouter();
 
-  const onPrevPage = () => setSearchParams({ page: `${currentPage - 1}` });
-  const onNextPage = () => setSearchParams({ page: `${currentPage + 1}` });
+  const onPrevPage = () => {
+    const href = search
+      ? {
+          pathname: '/',
+          query: {
+            page: +(page as string) - 1,
+            limit,
+            search,
+          },
+        }
+      : {
+          pathname: '/',
+          query: {
+            page: +(page as string) - 1,
+            limit,
+          },
+        };
+
+    router.push(href, undefined, { shallow: true });
+  };
+
+  const onNextPage = () => {
+    const href = search
+      ? {
+          pathname: '/',
+          query: {
+            page: +(page as string) + 1,
+            limit,
+            search,
+          },
+        }
+      : {
+          pathname: '/',
+          query: {
+            page: +(page as string) + 1,
+            limit,
+          },
+        };
+
+    router.push(href, undefined, { shallow: true });
+  };
 
   return (
     <div className="flex gap-4 items-center my-4">
       <button onClick={onPrevPage} disabled={prevPage === null}>
         Prev
       </button>
-      <span>{currentPage}</span>
+      <span data-testid="pageSpan">{page}</span>
       <button onClick={onNextPage} disabled={nextPage === null}>
         Next
       </button>
