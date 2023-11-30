@@ -27,7 +27,7 @@ const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
           },
         };
 
-    router.push(href);
+    router.push(href, undefined, { shallow: true });
   };
 
   const onNextPage = () => {
@@ -48,7 +48,7 @@ const Pagination: React.FC<PropsType> = ({ nextPage, prevPage }) => {
           },
         };
 
-    router.push(href);
+    router.push(href, undefined, { shallow: true });
   };
 
   return (

@@ -23,7 +23,7 @@ const SearchBar: React.FC = () => {
           pathname: '/',
           query: { page: '1', limit: e.target.value },
         };
-    router.push(href);
+    router.push(href, undefined, { shallow: true });
   };
 
   const submitHandler = (e: React.FormEvent) => {
@@ -42,7 +42,7 @@ const SearchBar: React.FC = () => {
           query: { page: '1', limit },
         };
 
-    router.push(href);
+    router.push(href, undefined, { shallow: true });
   };
 
   const showErrorBoundry = () => {

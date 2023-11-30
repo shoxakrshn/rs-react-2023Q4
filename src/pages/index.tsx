@@ -27,7 +27,7 @@ export default function Home() {
       };
 
   useEffect(() => {
-    router.push(href);
+    router.push(href, undefined, { shallow: true });
   }, []);
 
   return <Layout />;
