@@ -14,7 +14,7 @@ export const userSchema = yup.object().shape({
 
   age: yup
     .number()
-    .typeError('This field must not be empty')
+    .typeError('This field must not be empty and number')
     .positive('It must be positive number')
     .required('This field must not be empty'),
 
