@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg';
 
 const MainPage: React.FC = () => {
   const [count, setCount] = useState(0);
+
   return (
     <>
       <div>
