@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Route,
   createBrowserRouter,
@@ -6,11 +5,15 @@ import {
 } from 'react-router-dom';
 
 import MainPage from './pages/MainPage';
+import UncontrolledPage from './pages/UncontrolledPage';
+import ControlledPage from './pages/ControlledPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<MainPage />} />
+      <Route index element={<MainPage />} />
+      <Route path="uncontrolled" element={<UncontrolledPage />} />
+      <Route path="controlled" element={<ControlledPage />} />
     </Route>,
   ),
 );
