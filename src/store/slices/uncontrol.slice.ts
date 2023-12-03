@@ -4,7 +4,7 @@ import { FormDataType } from '../../utils/types';
 
 const initialState: FormDataType = {
   name: '',
-  age: 0,
+  age: '',
   email: '',
   password: '',
   confirmPassword: '',
