@@ -4,12 +4,12 @@ import { FormDataType } from '../../utils/types';
 
 const initialState: FormDataType = {
   name: '',
-  age: '',
+  age: 0,
   email: '',
   password: '',
   confirmPassword: '',
   gender: '',
-  agreement: '',
+  agreement: false,
   picture: '',
   country: '',
 };
@@ -18,13 +18,13 @@ const uncontrolSlice = createSlice({
   name: 'control',
   initialState,
   reducers: {
-    saveData: (state, action: PayloadAction<FormDataType>) => {
-      state = action.payload;
+    saveUncontrolledData: (state, action: PayloadAction<FormDataType>) => {
+      Object.assign(state, action.payload);
     },
   },
 });
 
-export const { saveData } = uncontrolSlice.actions;
+export const { saveUncontrolledData } = uncontrolSlice.actions;
 export default uncontrolSlice.reducer;
 
 export const selectUncontrol = (state: RootState) => state.uncontrol;
