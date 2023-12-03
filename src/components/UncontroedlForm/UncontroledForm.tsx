@@ -62,8 +62,6 @@ export const UncontrolledForm: React.FC = () => {
           );
 
           navigate('/');
-
-          console.log(validValues);
         }
       } catch (err) {
         if (err instanceof yup.ValidationError) {
