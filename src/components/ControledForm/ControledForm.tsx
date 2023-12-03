@@ -3,12 +3,14 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { convertBase64 } from '../../utils/convertBase64';
 import Autocomplete from '../../components/Autocomplete/Autocomplete';
+import { useAppDispatch } from '../../store/hooks';
+import { saveControlledData } from '../../store/slices/control.slice';
+import { useNavigate } from 'react-router-dom';
 
 export const ControlledForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-
     control,
     formState: { errors, isValid },
   } = useForm<UserType>({
@@ -16,13 +18,18 @@ export const ControlledForm: React.FC = () => {
     resolver: yupResolver(userSchema),
   });
 
-  const onSubmitHandler = async (values: UserType) => {
-    console.log(values);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
+  const onSubmitHandler = async (values: UserType) => {
     if (values.picture) {
       const pictureFile = values.picture[0];
       const pictureBase64 = await convertBase64(pictureFile);
-      console.log(typeof pictureBase64);
+
+      const valueTosave = { ...values, picture: pictureBase64 };
+
+      dispatch(saveControlledData(valueTosave));
+      navigate('/');
     }
   };
 

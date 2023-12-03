@@ -3,6 +3,9 @@ import { userSchema } from '../../utils/validation.schema';
 import { convertBase64 } from '../../utils/convertBase64';
 import Unautocomplete from '../Unautocomplete/Unautocomplete';
 import * as yup from 'yup';
+import { useAppDispatch } from '../../store/hooks';
+import { saveUncontrolledData } from '../../store/slices/uncontrol.slice';
+import { useNavigate } from 'react-router-dom';
 
 interface FormErrors {
   name?: string;
@@ -18,6 +21,8 @@ interface FormErrors {
 
 export const UncontrolledForm: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const formRef = useRef<HTMLFormElement>(null);
   const checkRef = useRef<HTMLInputElement>(null);
@@ -31,11 +36,11 @@ export const UncontrolledForm: React.FC = () => {
       const formData = new FormData(formRef.current);
       const formValues = Object.fromEntries(formData.entries());
 
-      const agreement = checkRef.current?.checked;
+      const agreement = checkRef.current?.checked as boolean;
       const picture = fileRef.current?.files;
 
       try {
-        await userSchema.validate(
+        const validValues = await userSchema.validate(
           { ...formValues, agreement, picture },
           {
             abortEarly: false,
@@ -43,12 +48,22 @@ export const UncontrolledForm: React.FC = () => {
         );
 
         setErrors({});
-
         const pictureFile = picture && picture[0];
 
         if (pictureFile) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const pictureBase64 = await convertBase64(pictureFile);
+
+          dispatch(
+            saveUncontrolledData({
+              ...validValues,
+              agreement,
+              picture: pictureBase64,
+            }),
+          );
+
+          navigate('/');
+
+          console.log(validValues);
         }
       } catch (err) {
         if (err instanceof yup.ValidationError) {
@@ -159,7 +174,7 @@ export const UncontrolledForm: React.FC = () => {
         <input
           type="file"
           id="picture"
-          name="pictire"
+          name="picture"
           ref={fileRef}
           accept=".png, .jpg, .jpeg"
           className="px-3 py-2 rounded relative"
