@@ -8,35 +8,41 @@ const MainPage: React.FC = () => {
   const uncontrolFormData = useAppSelector(selectUncontrol);
 
   return (
-    <>
-      <nav>
-        <Link to="controlled" className="mr-16">
+    <div className="flex gap-8">
+      <div>
+        <Link to="controlled" className="text-xl">
           Controlled
         </Link>
-        <Link to="uncontrolled">Uncontrolled</Link>
-      </nav>
-      <div className="flex gap-8">
-        <ul>
-          controled Form:
-          <li>Name: {controlFormData.name}</li>
-          <li>Age: {controlFormData.age}</li>
-          <li>Email: {controlFormData.email}</li>
-          <li>Password: {controlFormData.password}</li>
-          <li>Country: {controlFormData.country}</li>
+
+        <ul className="mt-4">
+          <li className="font-medium">Name: {controlFormData.name}</li>
+          <li className="font-medium">Age: {controlFormData.age}</li>
+          <li className="font-medium">Email: {controlFormData.email}</li>
+          <li className="font-medium">Password: {controlFormData.password}</li>
+          <li className="font-medium">Country: {controlFormData.country}</li>
           <li>
-            <img src={`data:image/png;base64,${controlFormData.picture}`} />
+            <img src={controlFormData.picture} width={240} />
           </li>
         </ul>
-        <ul>
-          uncontroled Form:
-          <li>Name: {uncontrolFormData.name}</li>
-          <li>Age: {uncontrolFormData.age}</li>
-          <li>Email: {uncontrolFormData.email}</li>
-          <li>Password: {uncontrolFormData.password}</li>
-          <li>Country: {uncontrolFormData.country}</li>
+      </div>
+      <div>
+        <Link to="uncontrolled" className="text-xl">
+          Uncontrolled
+        </Link>
+        <ul className="mt-4">
+          <li className="font-medium">Name: {uncontrolFormData.name}</li>
+          <li className="font-medium">Age: {uncontrolFormData.age}</li>
+          <li className="font-medium">Email: {uncontrolFormData.email}</li>
+          <li className="font-medium">
+            Password: {uncontrolFormData.password}
+          </li>
+          <li className="font-medium">Country: {uncontrolFormData.country}</li>
+          <li className="font-medium">
+            <img src={uncontrolFormData.picture} width={240} />
+          </li>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

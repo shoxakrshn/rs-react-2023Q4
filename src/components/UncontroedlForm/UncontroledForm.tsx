@@ -80,112 +80,115 @@ export const UncontrolledForm: React.FC = () => {
   };
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={onSubmitHandler}
-      noValidate
-      className="flex flex-col border rounded p-6 gap-8"
-    >
-      <label htmlFor="name" className="grow">
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Name"
-          className="block px-3 py-2 border rounded relative"
-        />
-        {errors?.name && (
-          <p className="absolute text-red-400 text-sm">{errors.name}</p>
-        )}
-      </label>
-      <label htmlFor="age">
-        <input
-          type="number"
-          id="age"
-          name="age"
-          placeholder="age"
-          className="px-3 py-2 border rounded relative"
-        />
-        {errors?.age && (
-          <p className="absolute text-red-400 text-sm">{errors.age}</p>
-        )}
-      </label>
-      <label htmlFor="email">
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="email"
-          className="px-3 py-2 border rounded relative"
-        />
-        {errors?.email && (
-          <p className="absolute text-red-400 text-sm">{errors.email}</p>
-        )}
-      </label>
-      <label htmlFor="password">
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="password"
-          className="px-3 py-2 border rounded"
-        />
-        {errors?.password && (
-          <p className="absolute text-red-400 text-sm">{errors.password}</p>
-        )}
-      </label>
+    <>
+      <h1 className="mb-4 font-bold">Uncontrolled Form</h1>
+      <form
+        ref={formRef}
+        onSubmit={onSubmitHandler}
+        noValidate
+        className="flex flex-col border rounded p-6 gap-8"
+      >
+        <label htmlFor="name" className="grow">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Name"
+            className="block px-3 py-2 border rounded relative"
+          />
+          {errors?.name && (
+            <p className="absolute text-red-400 text-sm">{errors.name}</p>
+          )}
+        </label>
+        <label htmlFor="age">
+          <input
+            type="number"
+            id="age"
+            name="age"
+            placeholder="age"
+            className="px-3 py-2 border rounded relative"
+          />
+          {errors?.age && (
+            <p className="absolute text-red-400 text-sm">{errors.age}</p>
+          )}
+        </label>
+        <label htmlFor="email">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email"
+            className="px-3 py-2 border rounded relative"
+          />
+          {errors?.email && (
+            <p className="absolute text-red-400 text-sm">{errors.email}</p>
+          )}
+        </label>
+        <label htmlFor="password">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="password"
+            className="px-3 py-2 border rounded"
+          />
+          {errors?.password && (
+            <p className="absolute text-red-400 text-sm">{errors.password}</p>
+          )}
+        </label>
 
-      <label htmlFor="confirmPassword">
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          placeholder="confirm password"
-          className="px-3 py-2 border rounded relative"
-        />
-        {errors?.confirmPassword && (
-          <p className="absolute text-red-400 text-sm">
-            {errors.confirmPassword}
-          </p>
+        <label htmlFor="confirmPassword">
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="confirm password"
+            className="px-3 py-2 border rounded relative"
+          />
+          {errors?.confirmPassword && (
+            <p className="absolute text-red-400 text-sm">
+              {errors.confirmPassword}
+            </p>
+          )}
+        </label>
+        <select className="px-3 py-2 border rounded relative" name="gender">
+          <option value={'male'}>Male</option>
+          <option value={'female'}>Female</option>
+        </select>
+        {errors?.gender && (
+          <p className="absolute text-red-400 text-sm">{errors.gender}</p>
         )}
-      </label>
-      <select className="px-3 py-2 border rounded relative" name="gender">
-        <option value={'male'}>Male</option>
-        <option value={'female'}>Female</option>
-      </select>
-      {errors?.gender && (
-        <p className="absolute text-red-400 text-sm">{errors.gender}</p>
-      )}
 
-      <label htmlFor="agreement">
-        <input
-          type="checkbox"
-          id="agreement"
-          className="mr-2"
-          name="agreement"
-          ref={checkRef}
-        />
-        <span>I accept terms and condition</span>
-        {errors?.agreement && (
-          <p className="absolute text-red-400 text-sm">{errors.agreement}</p>
-        )}
-      </label>
-      <label htmlFor="picture">
-        <input
-          type="file"
-          id="picture"
-          name="picture"
-          ref={fileRef}
-          accept=".png, .jpg, .jpeg"
-          className="px-3 py-2 rounded relative"
-        />
-        {errors?.picture && (
-          <p className="absolute text-red-400 text-sm">{errors.picture}</p>
-        )}
-      </label>
-      <Unautocomplete ref={autoCompleteRef} errors={errors?.country} />
+        <label htmlFor="agreement">
+          <input
+            type="checkbox"
+            id="agreement"
+            className="mr-2"
+            name="agreement"
+            ref={checkRef}
+          />
+          <span>I accept terms and condition</span>
+          {errors?.agreement && (
+            <p className="absolute text-red-400 text-sm">{errors.agreement}</p>
+          )}
+        </label>
+        <label htmlFor="picture">
+          <input
+            type="file"
+            id="picture"
+            name="picture"
+            ref={fileRef}
+            accept=".png, .jpg, .jpeg"
+            className="px-3 py-2 rounded relative"
+          />
+          {errors?.picture && (
+            <p className="absolute text-red-400 text-sm">{errors.picture}</p>
+          )}
+        </label>
+        <Unautocomplete ref={autoCompleteRef} errors={errors?.country} />
 
-      <button type="submit">Submit</button>
-    </form>
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 };
