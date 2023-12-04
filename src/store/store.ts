@@ -1,24 +1,17 @@
-import {
-  // PreloadedState,
-  combineReducers,
-  configureStore,
-} from '@reduxjs/toolkit';
-import { disneyApi } from './query/disneyApi';
-import { createWrapper } from 'next-redux-wrapper';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import controlReducer from './slices/control.slice';
+import uncontrolReducer from './slices/uncontrol.slice';
+import countriesReducer from './slices/counries.slice';
 
-export const rootReducer = combineReducers({
-  [disneyApi.reducerPath]: disneyApi.reducer,
+const rootReducer = combineReducers({
+  countries: countriesReducer,
+  control: controlReducer,
+  uncontrol: uncontrolReducer,
 });
 
-export const setupStore = () =>
-  configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddlware) =>
-      getDefaultMiddlware().concat(disneyApi.middleware),
-  });
+export const store = configureStore({
+  reducer: rootReducer,
+});
 
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
-export type AppDispatch = AppStore['dispatch'];
-
-export const wrapper = createWrapper<AppStore>(setupStore);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
